@@ -22,10 +22,10 @@ const Form = () => {
     console.log(data);
   };
   return (
-    <div className="m-auto w-3/5">
+    <div className="h-full w-full flex justify-center items-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full text-lg bg-white p-10 rounded-md"
+        className="w-3/5 text-lg bg-white p-10 rounded-md"
       >
         <div className="py-3">
           <label htmlFor="name">名前</label>

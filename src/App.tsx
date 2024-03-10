@@ -65,7 +65,7 @@ function App() {
             </NavLink>
           </li>
         </ul>
-        <div className="ml-40 h-full w-full bg-gray-200">
+        <div className="ml-40 h-screen overflow-y-auto w-full bg-gray-200">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/posts" element={<Posts />}>
