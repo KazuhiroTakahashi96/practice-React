@@ -1,39 +1,24 @@
-import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const PostIndex = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState<
-    {
-      body?: string;
-      id?: number;
-      title?: string;
-      userId?: number;
-    }[]
-  >([]);
+export async function loader() {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const posts = await res.json();
+  return { posts };
+}
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const data = await res.json();
-      setPosts(data);
-    };
-    fetchPosts();
-  }, []);
+const PostIndex = () => {
+  const { posts } = useLoaderData();
 
   return (
     <ul>
-      {isLoading ? (
-        posts.map((post) => (
-          <li key={post.id} className="py-1">
-            <Link to={`${post.id}`}>
-              {post.id}: {post.title}
-            </Link>
-          </li>
-        ))
-      ) : (
-        <p>データがありません</p>
-      )}
+      {posts.map((post) => (
+        <li key={post.id} className="py-1 underline hover:text-blue-400">
+          <Link to={`${post.id}`}>
+            {post.id}: {post.title}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
