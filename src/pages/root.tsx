@@ -23,6 +23,14 @@ const Root = () => {
         <li>
           <NavLink
             className={({ isActive }) => (isActive ? "text-sky-600" : "")}
+            to="/users"
+          >
+            USERS
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) => (isActive ? "text-sky-600" : "")}
             to="/about"
           >
             ABOUT
