@@ -1,5 +1,32 @@
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { useLoaderData } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: { lat: string; lng: string };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+};
 
 export async function loader() {
   const res = await fetch(`https://jsonplaceholder.typicode.com/users`);
@@ -9,20 +36,73 @@ export async function loader() {
 
 const UserIndex = () => {
   const { users } = useLoaderData();
+  console.log(users);
+
+  const columns: ColumnDef<{ header: string; accessorKey: string }>[] = [
+    {
+      header: "Name",
+      accessorKey: "name",
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      header: "Address",
+      accessorKey: "address.city",
+    },
+  ];
+  const table = useReactTable({
+    columns,
+    data: users,
+    getCoreRowModel: getCoreRowModel(),
+  });
+  console.log(table);
 
   return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id} className="py-2">
-          <Link
-            to={`${user.id}`}
-            className="py-1 underline hover:text-blue-400"
-          >
-            {user.id}: {user.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {users.map((user: User) => (
+          <li key={user.id} className="py-2">
+            <Link
+              to={`${user.id}`}
+              className="py-1 underline hover:text-blue-400"
+            >
+              {user.id}: {user.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id} colSpan={header.colSpan}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 
