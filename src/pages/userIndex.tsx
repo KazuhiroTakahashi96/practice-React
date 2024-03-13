@@ -13,8 +13,11 @@ const UserIndex = () => {
   return (
     <ul>
       {users.map((user) => (
-        <li key={user.id} className="py-1 underline hover:text-blue-400">
-          <Link to={`${user.id}`}>
+        <li key={user.id} className="py-2">
+          <Link
+            to={`${user.id}`}
+            className="py-1 underline hover:text-blue-400"
+          >
             {user.id}: {user.name}
           </Link>
         </li>
