@@ -73,12 +73,16 @@ const UserIndex = () => {
           </li>
         ))}
       </ul>
-      <table>
-        <thead>
+      <table className="w-full">
+        <thead className="border-b-2 border-stone-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan}>
+                <th
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  className="p-2 text-left"
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -92,9 +96,9 @@ const UserIndex = () => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr key={row.id} className="border-b-2 border-stone-400">
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td key={cell.id} className="p-2 py-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
