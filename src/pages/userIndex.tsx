@@ -51,6 +51,10 @@ const UserIndex = () => {
       header: "Address",
       accessorKey: "address.city",
     },
+    {
+      header: "",
+      accessorKey: "id",
+    },
   ];
   const table = useReactTable({
     columns,
@@ -99,7 +103,16 @@ const UserIndex = () => {
             <tr key={row.id} className="border-b-2 border-stone-400">
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="p-2 py-4">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {cell.column.columnDef.accessorKey === "id" ? (
+                    <Link
+                      to={`${cell.getValue()}`}
+                      className="py-1 text-blue-700 hover:text-blue-400"
+                    >
+                      詳細
+                    </Link>
+                  ) : (
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )}
                 </td>
               ))}
             </tr>
