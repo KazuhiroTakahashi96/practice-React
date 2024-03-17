@@ -11,6 +11,9 @@ import NotFound from "./pages/notFound";
 import Post, { loader as postLoader } from "./pages/post";
 import PostIndex, { loader as postsLoader } from "./pages/postIndex";
 import Posts from "./pages/posts";
+import User, { loader as userLoader } from "./pages/user";
+import UserIndex, { loader as usersLoader } from "./pages/userIndex";
+import Users from "./pages/users";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,24 @@ const router = createBrowserRouter([
             path: ":postId",
             element: <Post />,
             loader: postLoader,
+            errorElement: <NotFound />,
+          },
+        ],
+      },
+      {
+        path: "users",
+        element: <Users />,
+        errorElement: <NotFound />,
+        children: [
+          {
+            index: true,
+            element: <UserIndex />,
+            loader: usersLoader,
+          },
+          {
+            path: ":userId",
+            element: <User />,
+            loader: userLoader,
             errorElement: <NotFound />,
           },
         ],
